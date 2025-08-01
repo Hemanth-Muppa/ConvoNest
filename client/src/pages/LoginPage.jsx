@@ -21,19 +21,44 @@ const LoginPage = () => {
       return;
     }
 
-    login(currState === "Sign up" ? 'signup' : 'login', {fullName, email, password, bio})
+    login(currState === "Sign up" ? "signup" : "login", {
+      fullName,
+      email,
+      password,
+      bio,
+    });
   };
 
   return (
     <div className="min-h-screen bg-cover bg-center flex items-center justify-center gap-8 sm:justify-evenly max-sm:flex-col backdrop-blur-2xl">
       {/* --------- left --------- */}
-      <img src={assets.logo_big} alt="" className="w-[min(30vw,250px)]" />
+      <div className="flex flex-col items-center">
+        <img
+          src={assets.window}
+          alt="ConvoNest Logo"
+          className="w-[min(15vw,130px)]"
+        />
+        <span className="text-white text-4xl font-bold tracking-wider font-sans drop-shadow-lg">
+  Convo<span className="text-purple-400">Nest</span>
+</span>
+
+      </div>
 
       {/* --------- right --------- */}
-      <form onSubmit = {onSubmitHandler} className="border-2 bg-white/8 text-white border-gray-500 p-6 flex flex-col gap-6 rounded-lg shadow-lg">
+      <form
+        onSubmit={onSubmitHandler}
+        className="border-2 bg-white/8 text-white border-gray-500 p-6 flex flex-col gap-6 rounded-lg shadow-lg"
+      >
         <h2 className="font-medium text-2xl flex justify-between items-center">
           {currState}
-          {isDataSubmitted && <img onClick = { () => setIsDataSubmitted(false) } src={assets.arrow_icon} alt="" className="w-5 cursor-pointer" /> }
+          {isDataSubmitted && (
+            <img
+              onClick={() => setIsDataSubmitted(false)}
+              src={assets.arrow_icon}
+              alt=""
+              className="w-5 cursor-pointer"
+            />
+          )}
         </h2>
 
         {currState === "Sign up" && !isDataSubmitted && (
@@ -118,7 +143,6 @@ const LoginPage = () => {
             </p>
           )}
         </div>
-
       </form>
     </div>
   );

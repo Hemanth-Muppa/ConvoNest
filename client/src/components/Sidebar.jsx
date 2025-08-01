@@ -1,29 +1,38 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 // defaultexport
-import assets from '../assets/assets';
+import assets from "../assets/assets";
 import { useContext } from "react";
 import { AuthContext } from "../../context/AuthContext";
 import { ChatContext } from "../../context/ChatContext";
 import { useState } from "react";
 import { useEffect } from "react";
 
-
 const Sidebar = () => {
+  const {
+    getUsers,
+    users,
+    selectedUser,
+    setSelectedUser,
+    unseenMessages,
+    setUnseenMessages,
+  } = useContext(ChatContext);
 
-  const {getUsers, users, selectedUser, setSelectedUser, unseenMessages, setUnseenMessages} = useContext(ChatContext);
-
-  const {logout, onlineUsers}  = useContext(AuthContext);
+  const { logout, onlineUsers } = useContext(AuthContext);
 
   const [input, setInput] = useState("");
 
-  const filteredUsers = input ? users.filter((user) => user.fullName.toLowerCase().includes(input.toLowerCase())): users;
+  const filteredUsers = input
+    ? users.filter((user) =>
+        user.fullName.toLowerCase().includes(input.toLowerCase())
+      )
+    : users;
 
   const navigate = useNavigate();
 
   useEffect(() => {
     getUsers();
-  }, [onlineUsers])
+  }, [onlineUsers]);
 
   return (
     <div
@@ -33,7 +42,17 @@ const Sidebar = () => {
     >
       <div className="pb-5">
         <div className="flex justify-between items-center">
-          <img src={assets.logo} alt="logo" className="max-w-40" />
+          <div className="flex items-center gap-2 max-w-40">
+            <img
+              src={assets.window}
+              alt="logo"
+              className="w-8 h-8 object-contain"
+            />
+            <span className="text-white text-lg font-semibold tracking-wide whitespace-nowrap">
+              Convo<span className="text-purple-400">Nest</span>
+            </span>
+          </div>
+
           <div className="relative py-2 group">
             <img
               src={assets.menu_icon}
@@ -48,7 +67,9 @@ const Sidebar = () => {
                 Edit Profile
               </p>
               <hr className="my-2 border-t border-gray-500" />
-              <p onClick = {() => logout()} className="cursor-pointer text-sm">Logout</p>
+              <p onClick={() => logout()} className="cursor-pointer text-sm">
+                Logout
+              </p>
             </div>
           </div>
         </div>
@@ -69,9 +90,10 @@ const Sidebar = () => {
           <div
             onClick={() => {
               setSelectedUser(user);
-              setUnseenMessages(prev => ({
-                ...prev, [user._id] : 0
-              }))
+              setUnseenMessages((prev) => ({
+                ...prev,
+                [user._id]: 0,
+              }));
             }}
             key={index}
             className={`relative flex items-center gap-2 p-2 pl-4 rounded cursor-pointer max-sm:text-sm ${
@@ -85,7 +107,7 @@ const Sidebar = () => {
             />
             <div className="flex flex-col leading-5">
               <p>{user.fullName}</p>
-              { onlineUsers.includes(user._id) ? (
+              {onlineUsers.includes(user._id) ? (
                 <span className="text-green-400 text-xs">Online</span>
               ) : (
                 <span className="text-neutral-400 text-xs">Offline</span>
@@ -99,8 +121,6 @@ const Sidebar = () => {
           </div>
         ))}
       </div>
-
-
     </div>
   );
 };
